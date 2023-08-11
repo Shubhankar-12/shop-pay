@@ -2,8 +2,8 @@
   margin: 0;
   box-sizing: border-box;
 
-  &:after,
-  &:before {
+  &:before,
+  &:after {
     box-sizing: border-box;
   }
 }
@@ -31,9 +31,10 @@ h6 {
   overflow-wrap: break-word;
 }
 
-image,
+img,
 video,
-canvas {
+canvas,
+svg {
   max-width: 100%;
 }
 

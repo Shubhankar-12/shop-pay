@@ -1,10 +1,12 @@
-import styles from './styles/page.module.scss'
-
+"use client"
+import Footer from './components/footer'
+import Header from './components/header'
 
 export default function Home() {
   return (
-    <main className={styles.main}>
-      <h1>Hey</h1>
-    </main>
+    <>
+      <Header />
+      <Footer />
+    </>
   )
 }
