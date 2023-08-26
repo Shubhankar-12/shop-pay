@@ -1,3 +1,4 @@
+"use client"
 import Main from './Main';
 import Ad from './Ad';
 import Top from './Top';
