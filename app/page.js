@@ -1,31 +1,30 @@
-
 import axios from 'axios'
 import Footer from './components/footer'
 import Header from './components/header'
 
-export default function Home({ country }) {
-
+export default async function Home() {
+  const country = await fetchLocation();
   return (
     <div>
-      <Header />
-      <Footer />
+      <Header country={country} />
+      <Footer country={country} />
     </div>
   )
 }
 
-export const getServerSideProps = async () => {
-  let data = await axios
-    .get("https://api.ipregistry.co/?key=rjkcr55mf3j78o4i")
-    .then((res) => {
-      return res.data.location.country;
+export const fetchLocation = async () => {
+  let locationRespone = await axios.get(`https://api.ipregistry.co/?key=${process.env.NEXT_APP_IPREG_KEY}`)
+    .then(res => {
+      return res.data;
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
-    });
-  console.log(data);
-  return {
-    props: {
-      country: data
-    }
+    })
+
+  let country = {
+    name: locationRespone.location.country.name,
+    flag: locationRespone.location.country.flag.emojitwo,
+    currency: locationRespone.currency.code
   }
+  return country;
 }
