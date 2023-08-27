@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import UserMenu from './UserMenu';
 
-const Top = () => {
+const Top = ({ country }) => {
     const [loggedIn, setLoggedIn] = useState(true);
     const [visible, setVisible] = useState(false)
     return (
@@ -15,9 +15,8 @@ const Top = () => {
                 <div></div>
                 <ul className={styles.top__list}>
                     <li className={styles.li}>
-                        <img src='https://w7.pngwing.com/pngs/836/833/png-transparent-round-orange-white-and-green-flag-of-indian-art-flag-of-india-computer-icons-national-flag-indian-flag-blue-flag-orange.png'
-                            alt='flag' />
-                        <span>India / INR</span>
+                        <img src={country.flag} alt='flag' />
+                        <span>{country.name} / {country.currency}</span>
                     </li>
                     <li className={styles.li}>
                         <MdSecurity />
