@@ -17,7 +17,11 @@ const Top = ({ country }) => {
                 <div></div>
                 <ul className={styles.top__list}>
                     <li className={styles.li}>
-                        <img src={country.flag} alt='flag' />
+                        {
+                            country.flag ? <img src={country.flag} alt='flag' />
+                                :
+                                <img src={country.flag} alt='flag' />
+                        }
                         <span>{country.name} / {country.currency}</span>
                     </li>
                     <li className={styles.li}>

@@ -1,16 +1,20 @@
 "use client"
-import { useSession, signIn, signOut } from "next-auth/react"
+import React from 'react'
+import Header from '../components/header';
+import Footer from '../components/footer';
 
-export default function Component() {
-    const { data: session } = useSession()
-    if (session) {
-        return <>
-            Signed in as {session.user.email} <br />
-            <button onClick={() => signOut()}>Sign out</button>
-        </>
+const Signin = () => {
+    let country = {
+        name: "India",
+        flag: "../../../public/images/flag.png",
+        currency: "INR"
     }
-    return <>
-        Not signed in <br />
-        <button onClick={() => signIn()}>Sign in</button>
-    </>
+    return (
+        <div>
+            <Header country={country} />
+            <Footer country={country} />
+        </div>
+    )
 }
+
+export default Signin;
