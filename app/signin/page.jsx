@@ -8,6 +8,7 @@ import { BiLeftArrowAlt } from "react-icons/bi";
 import Link from 'next/link';
 import { Form, Formik } from 'formik';
 import LoginInput from '../components/inputs/loginInputs';
+import CircleIconBtn from '../components/buttons/cicleIconBtn';
 
 const intialValues = {
     login_email: "",
@@ -72,6 +73,10 @@ const Signin = () => {
                                             placeholder="Password"
                                             onChange={handleChange}
                                         />
+                                        <CircleIconBtn type="submit" text="Sign In" />
+                                        <div className={styles.forgot}>
+                                            <Link href="/forgot">Forgot Password ?</Link>
+                                        </div>
                                     </Form>
                                 )
                             }
