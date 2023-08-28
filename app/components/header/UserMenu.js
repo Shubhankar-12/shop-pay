@@ -21,7 +21,9 @@ const UserMenu = ({ loggedIn }) => {
             ) : (
                 <div className={styles.flex}>
                     <button className={styles.btn_primary}>Register</button>
-                    <button className={styles.btn_outlined}>login</button>
+                    <button className={styles.btn_outlined}>
+                        <Link href="/signin">Login</Link>
+                    </button>
                 </div>
             )}
             <ul>

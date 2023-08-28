@@ -7,7 +7,7 @@ import { useState } from 'react';
 import UserMenu from './UserMenu';
 
 const Top = ({ country }) => {
-    const [loggedIn, setLoggedIn] = useState(true);
+    const [loggedIn, setLoggedIn] = useState(false);
     const [visible, setVisible] = useState(false)
     return (
         <div className={styles.top}>
