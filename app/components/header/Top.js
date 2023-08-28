@@ -9,7 +9,6 @@ import { useSession } from 'next-auth/react';
 
 const Top = ({ country }) => {
     const { data: session } = useSession();
-    console.log(session);
     const [visible, setVisible] = useState(false)
     return (
         <div className={styles.top}>
@@ -17,11 +16,8 @@ const Top = ({ country }) => {
                 <div></div>
                 <ul className={styles.top__list}>
                     <li className={styles.li}>
-                        {
-                            country.flag ? <img src={country.flag} alt='flag' />
-                                :
-                                <img src={country.flag} alt='flag' />
-                        }
+                        <img src='../../../images/flag.png' alt='flag' />
+
                         <span>{country.name} / {country.currency}</span>
                     </li>
                     <li className={styles.li}>
