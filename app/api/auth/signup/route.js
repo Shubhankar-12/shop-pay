@@ -1,7 +1,10 @@
 import { createRouter } from 'next-connect';
+import bcrypt from 'bcrypt';
 import db from '../../../../utils/db'
 import { NextResponse } from 'next/server';
 import { validateEmail } from '@/utils/validation';
+import User from '@/models/User';
+import { createActivationToken } from '@/utils/tokens';
 const router = createRouter();
 
 router
@@ -17,8 +20,25 @@ router
                 return NextResponse.json({ message: "Invalid Email." }, { status: 400 });
             }
 
-            // console.log(body);
-            return NextResponse.json({ message: "POST Worked", success: true });
+            const user = await User.findOne({ email });
+
+            if (user) {
+                return NextResponse.json({ message: "this email already exist.", success: false }, { status: 400 });
+            }
+
+            if (password.length < 6) {
+                return NextResponse.json({ message: "Password length must be atleast 6 characters.", success: false }, { status: 400 });
+            }
+
+            const encryptedPassword = await bcrypt.hash(password, 12);
+            const newUser = new User({ name, email, password: encryptedPassword });
+            const cnfUser = await newUser.save();
+            if (cnfUser) {
+                const activationToken = createActivationToken({ id: cnfUser._id.toString() });
+                return NextResponse.json({ activationToken: activationToken, success: true });
+            }
+            else
+                return NextResponse.json({ message: "Error occured", success: false }, { status: 400 });
         } catch (error) {
             return NextResponse.json({ message: error.message });
         }
