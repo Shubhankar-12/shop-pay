@@ -35,7 +35,8 @@ router
             const cnfUser = await newUser.save();
             if (cnfUser) {
                 const activationToken = createActivationToken({ id: cnfUser._id.toString() });
-                return NextResponse.json({ activationToken: activationToken, success: true });
+                const url = `${process.env.BASE_URL}/activation/${activationToken}`
+                return NextResponse.json({ activationToken: url, success: true });
             }
             else
                 return NextResponse.json({ message: "Error occured", success: false }, { status: 400 });
