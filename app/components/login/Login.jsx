@@ -8,6 +8,9 @@ import { Form, Formik } from 'formik';
 import LoginInput from '../inputs/loginInputs';
 import CircleIconBtn from '../buttons/cicleIconBtn';
 import { signIn } from 'next-auth/react';
+import axios from 'axios';
+import DotLoader from '../loders/DotLoader';
+import { redirect, useRouter } from 'next/navigation';
 
 const intialValues = {
     login_email: "",
@@ -16,13 +19,21 @@ const intialValues = {
     email: "",
     password: "",
     conf_password: "",
+    success: "",
+    error: "",
+    login_error: ""
 }
 
 const Login = ({ providers }) => {
-
+    // usestates
     const [user, setuser] = useState(intialValues);
+    const [loading, setLoading] = useState(false);
+    // userouter
+    const router = useRouter()
+
     const { login_email, login_password, name, email, password,
-        conf_password, } = user;
+        conf_password, success, error, login_error } = user;
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setuser({ ...user, [name]: value });
@@ -56,131 +67,184 @@ const Login = ({ providers }) => {
             .oneOf([Yup.ref("password")], "Passwords doesn't match."),
     });
 
-    return (
-        <div className={styles.login}>
-            <div className={styles.login__container}>
-                <div className={styles.login__header}>
-                    <div className={styles.back__svg}>
-                        <BiLeftArrowAlt />
-                    </div>
-                    <span>We'd be happy to join us !{" "}
-                        <Link href='/'>Go Store</Link>
-                    </span>
-                </div>
-                <div className={styles.login__form}>
-                    <h1>Sign In</h1>
-                    <p>Get access to one of the best Eshopping services in the world.</p>
-                    <Formik
-                        enableReinitialize
-                        initialValues={{
-                            login_email,
-                            login_password,
-                        }}
-                        validationSchema={loginValidation}
-                    >
-                        {
-                            (form) => (
-                                <Form>
-                                    <LoginInput
-                                        type="text"
-                                        name="login_email"
-                                        icon="email"
-                                        placeholder="Email Address"
-                                        onChange={handleChange}
-                                    />
-                                    <LoginInput
-                                        type="password"
-                                        name="login_password"
-                                        icon="password"
-                                        placeholder="Password"
-                                        onChange={handleChange}
-                                    />
-                                    <CircleIconBtn type="submit" text="Sign In" />
-                                    <div className={styles.forgot}>
-                                        <Link href="/forgot">Forgot Password ?</Link>
-                                    </div>
-                                </Form>
-                            )
-                        }
-                    </Formik>
-                    <div className={styles.login__socials}>
-                        <span className={styles.or}>
-                            Or continue with
-                        </span>
-                        <div className={styles.login__socials__wrap}>
-                            {providers.map((provider) => (
-                                <div key={provider.name}>
-                                    <button
-                                        className={styles.socials__btn}
-                                        onClick={() => signIn(provider.id)}
-                                    >
-                                        <img src={`../../../icons/${provider.name}.png`} alt='visa' />
+    const signupHandler = async () => {
+        try {
+            setLoading(true);
+            const { data } = await axios.post('/api/auth/signup', {
+                name,
+                email,
+                password
+            });
+            setuser({ ...user, error: "", success: data.message });
+            setLoading(false);
+            setTimeout(async () => {
+                let option = {
+                    redirect: false,
+                    email: email,
+                    password: password
+                };
+                const res = await signIn("credentials", option);
+                router.push('/');
+            }, 1000)
+        } catch (err) {
+            setLoading(false);
+            setuser({ ...user, success: "", error: err.response.data.message });
+        }
+    };
 
-                                        Sign in with {provider.name}
-                                    </button>
-                                </div>
-                            ))}
+    const signInHandler = async () => {
+        setLoading(true);
+        let option = {
+            redirect: false,
+            email: login_email,
+            password: login_password
+        };
+        const res = await signIn("credentials", option);
+        setuser({ ...user, success: "", error: "" });
+        setLoading(false);
+        if (res?.error) {
+            setuser({ ...user, login_error: res.error });
+        }
+        else router.push('/');
+    }
+
+    return (
+        <>
+            {loading && <DotLoader loading={loading} />}
+            <div className={styles.login}>
+                <div className={styles.login__container}>
+                    <div className={styles.login__header}>
+                        <div className={styles.back__svg}>
+                            <BiLeftArrowAlt />
+                        </div>
+                        <span>We'd be happy to join us !{" "}
+                            <Link href='/'>Go Store</Link>
+                        </span>
+                    </div>
+                    <div className={styles.login__form}>
+                        <h1>Sign In</h1>
+                        <p>Get access to one of the best Eshopping services in the world.</p>
+                        <Formik
+                            enableReinitialize
+                            initialValues={{
+                                login_email,
+                                login_password,
+                            }}
+                            validationSchema={loginValidation}
+                            onSubmit={() => signInHandler()}
+                        >
+                            {
+                                (form) => (
+                                    <Form>
+                                        <LoginInput
+                                            type="text"
+                                            name="login_email"
+                                            icon="email"
+                                            placeholder="Email Address"
+                                            onChange={handleChange}
+                                        />
+                                        <LoginInput
+                                            type="password"
+                                            name="login_password"
+                                            icon="password"
+                                            placeholder="Password"
+                                            onChange={handleChange}
+                                        />
+                                        <CircleIconBtn type="submit" text="Sign In" />
+                                        {
+                                            login_error && <span className={styles.error}>{login_error}</span>
+                                        }
+                                        <div className={styles.forgot}>
+                                            <Link href="/forgot">Forgot Password ?</Link>
+                                        </div>
+                                    </Form>
+                                )
+                            }
+
+                        </Formik>
+                        <div className={styles.login__socials}>
+                            <span className={styles.or}>
+                                Or continue with
+                            </span>
+                            <div className={styles.login__socials__wrap}>
+                                {providers.map((provider) => (
+                                    <div key={provider.name}>
+                                        <button
+                                            className={styles.socials__btn}
+                                            onClick={() => signIn(provider.id)}
+                                        >
+                                            <img src={`../../../icons/${provider.name}.png`} alt='visa' />
+
+                                            Sign in with {provider.name}
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/* Signup */}
+                <div className={styles.login__container}>
+
+                    <div className={styles.login__form}>
+                        <h1>Sign Up</h1>
+                        <p>Get access to one of the best Eshopping services in the world.</p>
+                        <Formik
+                            enableReinitialize
+                            initialValues={{
+                                name, email, password,
+                                conf_password
+                            }}
+                            validationSchema={registerValidation}
+                            onSubmit={() => signupHandler()}
+                        >
+                            {
+                                (form) => (
+                                    <Form>
+                                        <LoginInput
+                                            type="text"
+                                            name="name"
+                                            icon="user"
+                                            placeholder="Full Name"
+                                            onChange={handleChange}
+                                        />
+                                        <LoginInput
+                                            type="text"
+                                            name="email"
+                                            icon="email"
+                                            placeholder="Email Address"
+                                            onChange={handleChange}
+                                        />
+                                        <LoginInput
+                                            type="password"
+                                            name="password"
+                                            icon="password"
+                                            placeholder="Password"
+                                            onChange={handleChange}
+                                        />
+                                        <LoginInput
+                                            type="password"
+                                            name="conf_password"
+                                            icon="password"
+                                            placeholder="Re-type Password"
+                                            onChange={handleChange}
+                                        />
+                                        <CircleIconBtn type="submit" text="Sign Up" />
+                                        <div className={styles.forgot}>
+                                            <Link href="/forgot">Forgot Password ?</Link>
+                                        </div>
+                                    </Form>
+                                )
+                            }
+                        </Formik>
+                        <div>
+                            {success && <span className={styles.success}>{success}</span>}
+                            {error && <span className={styles.error}>{error}</span>}
                         </div>
                     </div>
                 </div>
             </div>
-            {/* Signup */}
-            <div className={styles.login__container}>
-
-                <div className={styles.login__form}>
-                    <h1>Sign Up</h1>
-                    <p>Get access to one of the best Eshopping services in the world.</p>
-                    <Formik
-                        enableReinitialize
-                        initialValues={{
-                            name, email, password,
-                            conf_password,
-                        }}
-                        validationSchema={registerValidation}
-                    >
-                        {
-                            (form) => (
-                                <Form>
-                                    <LoginInput
-                                        type="text"
-                                        name="name"
-                                        icon="user"
-                                        placeholder="Full Name"
-                                        onChange={handleChange}
-                                    />
-                                    <LoginInput
-                                        type="text"
-                                        name="email"
-                                        icon="email"
-                                        placeholder="Email Address"
-                                        onChange={handleChange}
-                                    />
-                                    <LoginInput
-                                        type="password"
-                                        name="password"
-                                        icon="password"
-                                        placeholder="Password"
-                                        onChange={handleChange}
-                                    />
-                                    <LoginInput
-                                        type="password"
-                                        name="conf_password"
-                                        icon="password"
-                                        placeholder="Re-type Password"
-                                        onChange={handleChange}
-                                    />
-                                    <CircleIconBtn type="submit" text="Sign Up" />
-                                    <div className={styles.forgot}>
-                                        <Link href="/forgot">Forgot Password ?</Link>
-                                    </div>
-                                </Form>
-                            )
-                        }
-                    </Formik>
-
-                </div>
-            </div>
-        </div>
+        </>
     )
 }
 
