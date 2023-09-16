@@ -5,6 +5,7 @@ import { NextResponse } from 'next/server';
 import { validateEmail } from '@/utils/validation';
 import User from '@/models/User';
 import { createActivationToken } from '@/utils/tokens';
+import { sendEmail } from '@/utils/sendEmail';
 const router = createRouter();
 
 router
@@ -35,8 +36,10 @@ router
             const cnfUser = await newUser.save();
             if (cnfUser) {
                 const activationToken = createActivationToken({ id: cnfUser._id.toString() });
-                const url = `${process.env.BASE_URL}/activation/${activationToken}`
-                return NextResponse.json({ activationToken: url, success: true });
+                const url = `${process.env.BASE_URL}/activation/${activationToken}`;
+                sendEmail(email, url, "Activate your Shoppay Account.");
+                await db.disconnectDb();
+                return NextResponse.json({ message: "Register Success! Please activate your account.", success: true });
             }
             else
                 return NextResponse.json({ message: "Error occured", success: false }, { status: 400 });
