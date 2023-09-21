@@ -1,26 +1,27 @@
 import Header from '../components/header';
 import Footer from '../components/footer';
-import { getProviders } from 'next-auth/react';
+import { getCsrfToken, getProviders } from 'next-auth/react';
 import Login from '../components/login/Login';
-
 
 let country = {
     name: "India",
     currency: "INR"
 }
-const Signin = async () => {
-    const providers = await fetchProviders();
+const Signin = async (context) => {
+    const { searchParams: { callbackUrl } } = context;
+    const providers = await fetchProviders(context);
+    const csrfToken = await getCsrfToken();
 
     return (
         <div>
             <Header country={country} />
-            <Login providers={providers} />
+            <Login providers={providers} callbackUrl={callbackUrl} csrfToken={csrfToken} />
             <Footer country={country} />
         </div>
     )
 }
 
-const fetchProviders = async () => {
+const fetchProviders = async (context) => {
     const data = Object.values(await getProviders());
     return data;
 }

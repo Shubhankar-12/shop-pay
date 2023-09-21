@@ -7,10 +7,10 @@ import Link from 'next/link';
 import { Form, Formik } from 'formik';
 import LoginInput from '../inputs/loginInputs';
 import CircleIconBtn from '../buttons/cicleIconBtn';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import axios from 'axios';
 import DotLoader from '../loders/DotLoader';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 const intialValues = {
     login_email: "",
@@ -24,12 +24,14 @@ const intialValues = {
     login_error: ""
 }
 
-const Login = ({ providers }) => {
+const Login = ({ providers, callbackUrl, csrfToken }) => {
     // usestates
     const [user, setuser] = useState(intialValues);
     const [loading, setLoading] = useState(false);
     // userouter
-    const router = useRouter()
+    const router = useRouter();
+
+    const session = useSession();
 
     const { login_email, login_password, name, email, password,
         conf_password, success, error, login_error } = user;
@@ -84,7 +86,10 @@ const Login = ({ providers }) => {
                     password: password
                 };
                 const res = await signIn("credentials", option);
-                router.push('/');
+                if (callbackUrl === undefined)
+                    router.push('/');
+                else
+                    router.push(callbackUrl);
             }, 1000)
         } catch (err) {
             setLoading(false);
@@ -105,9 +110,29 @@ const Login = ({ providers }) => {
         if (res?.error) {
             setuser({ ...user, login_error: res.error });
         }
-        else router.push('/');
+        else {
+            if (callbackUrl === undefined)
+                router.push('/');
+            else
+                router.push(callbackUrl);
+        }
     }
 
+    const sessionRedirect = () => {
+        setTimeout(() => {
+            if (callbackUrl === undefined)
+                router.push('/');
+            else
+                router.push(callbackUrl);
+        }, 2000);
+    }
+
+    if (session.data) {
+        return <div onLoad={sessionRedirect()} className={styles.sessionExist}>
+            <h1>You are already logged in.</h1>
+            <p>Redirecting to the last page...</p>
+        </div>
+    }
     return (
         <>
             {loading && <DotLoader loading={loading} />}
@@ -135,7 +160,12 @@ const Login = ({ providers }) => {
                         >
                             {
                                 (form) => (
-                                    <Form>
+                                    <Form method='post' action="/api/auth/signin/email">
+                                        <input
+                                            type="hidden"
+                                            name="csrfToken"
+                                            defaultValue={csrfToken}
+                                        />
                                         <LoginInput
                                             type="text"
                                             name="login_email"
@@ -167,8 +197,9 @@ const Login = ({ providers }) => {
                                 Or continue with
                             </span>
                             <div className={styles.login__socials__wrap}>
-                                {providers.map((provider) => (
-                                    <div key={provider.name}>
+                                {providers.map((provider) => {
+                                    if (provider.name == "Credentials") return;
+                                    return (<div key={provider.name}>
                                         <button
                                             className={styles.socials__btn}
                                             onClick={() => signIn(provider.id)}
@@ -177,8 +208,8 @@ const Login = ({ providers }) => {
 
                                             Sign in with {provider.name}
                                         </button>
-                                    </div>
-                                ))}
+                                    </div>)
+                                })}
                             </div>
                         </div>
                     </div>
@@ -188,6 +219,7 @@ const Login = ({ providers }) => {
 
                     <div className={styles.login__form}>
                         <h1>Sign Up</h1>
+                        {/* Change required */}
                         <p>Get access to one of the best Eshopping services in the world.</p>
                         <Formik
                             enableReinitialize
@@ -230,9 +262,7 @@ const Login = ({ providers }) => {
                                             onChange={handleChange}
                                         />
                                         <CircleIconBtn type="submit" text="Sign Up" />
-                                        <div className={styles.forgot}>
-                                            <Link href="/forgot">Forgot Password ?</Link>
-                                        </div>
+
                                     </Form>
                                 )
                             }
