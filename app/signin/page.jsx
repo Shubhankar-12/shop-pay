@@ -3,6 +3,7 @@ import Footer from '../components/footer';
 import { getCsrfToken, getProviders } from 'next-auth/react';
 import Login from '../components/login/Login';
 
+// dummy country data added 
 let country = {
     name: "India",
     currency: "INR"
