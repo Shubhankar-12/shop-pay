@@ -21,6 +21,7 @@ const Signin = async (context) => {
     )
 }
 
+// fetching Providers using SSR
 const fetchProviders = async (context) => {
     const data = Object.values(await getProviders());
     return data;
