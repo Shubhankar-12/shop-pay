@@ -13,7 +13,7 @@ export default async function Home() {
     </div>
   )
 }
-
+// SSR
 export const fetchLocation = async () => {
   let locationRespone = await axios.get(`https://api.ipregistry.co/?key=${process.env.NEXT_APP_IPREG_KEY}`)
     .then(res => {
