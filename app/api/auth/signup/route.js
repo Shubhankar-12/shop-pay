@@ -6,6 +6,7 @@ import { validateEmail } from '@/utils/validation';
 import User from '@/models/User';
 import { createActivationToken } from '@/utils/tokens';
 import { sendEmail } from '@/utils/sendEmail';
+import { activateEmail } from '@/emails/activateEmails';
 const router = createRouter();
 
 router
@@ -37,7 +38,7 @@ router
             if (cnfUser) {
                 const activationToken = createActivationToken({ id: cnfUser._id.toString() });
                 const url = `${process.env.BASE_URL}/activation/${activationToken}`;
-                sendEmail(email, url, "Activate your Shoppay Account.");
+                sendEmail(email, url, "Activate your Shoppay Account.", activateEmail);
                 await db.disconnectDb();
                 return NextResponse.json({ message: "Register Success! Please activate your account.", success: true });
             }

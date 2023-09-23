@@ -9,7 +9,7 @@ const { MAILING_CID, MAILING_CSECRET, MAILING_CREFRESH_TOKEN, SENDER_EMAIL } = p
 
 const oauthClient = new OAuth2(MAILING_CID, MAILING_CSECRET, MAILING_CREFRESH_TOKEN, OAUTH_PLAYGROUND);
 
-export const sendEmail = (to, url, subject) => {
+export const sendEmail = (to, url, subject, template) => {
     oauthClient.setCredentials({
         refresh_token: MAILING_CREFRESH_TOKEN
     });
@@ -29,7 +29,7 @@ export const sendEmail = (to, url, subject) => {
         from: SENDER_EMAIL,
         to: to,
         subject: subject,
-        html: activateEmail(to, url)
+        html: template(to, url)
     };
     smtpTransport.sendMail(mailOptions, (err, infos) => {
         if (err) return err;

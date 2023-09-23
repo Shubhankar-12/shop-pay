@@ -7,12 +7,14 @@ import LoginInput from "@/app/components/inputs/loginInputs";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
+import axios from "axios";
+import DotLoader from "../loders/DotLoader";
 
 const ForgotComponent = () => {
     const [email, setEmail] = useState("");
-    const [error, seterror] = useState("");
+    const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
-    const [loading, setLoading] = useState("");
+    const [loading, setLoading] = useState(false);
     const emailValidation = Yup.object({
         email: Yup.string()
             .required(
@@ -20,10 +22,25 @@ const ForgotComponent = () => {
             )
             .email("Enter a valid email address."),
     });
-    const forgotHandler = async () => { };
+    const forgotHandler = async () => {
+        try {
+            setLoading(true);
+            const { data } = await axios.post('/api/auth/forgot', {
+                email
+            });
+            setSuccess(data.message);
+            setError("");
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+            setError(error.response.data.message);
+            setSuccess("");
+        }
+    };
 
     return (
         <>
+            {loading && <DotLoader loading={loading} />}
             <div className={styles.forgot}>
                 <div>
                     <div className={styles.forgot__header}>

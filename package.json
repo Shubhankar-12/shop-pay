@@ -37,5 +37,8 @@
     "sass": "^1.64.2",
     "swr": "^2.2.2",
     "yup": "^1.2.0"
+  },
+  "devDependencies": {
+    "encoding": "^0.1.13"
   }
 }
