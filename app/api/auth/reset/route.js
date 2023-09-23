@@ -3,6 +3,8 @@ import db from '../../../../utils/db'
 import { NextResponse } from 'next/server';
 import User from '@/models/User';
 import bcrypt from 'bcrypt';
+import { resetConfirmation } from '@/emails/resetConfirmation';
+import { sendEmail } from '@/utils/sendEmail';
 
 const router = createRouter();
 
@@ -21,7 +23,7 @@ router
                 password: encryptPassword
             })
 
-            // sendEmail(email, url, "Reset your Shoppay password.", ResetEmail);
+            sendEmail(user.email, "", "Password updated successfully!", resetConfirmation);
             await db.disconnectDb();
 
             return NextResponse.json({ email: user.email, success: true });
