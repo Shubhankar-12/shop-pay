@@ -9,31 +9,46 @@ import * as Yup from "yup";
 import { useState } from "react";
 import axios from "axios";
 import DotLoader from "../loders/DotLoader";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-const ForgotComponent = () => {
+
+const ResetComponent = ({ id }) => {
     const router = useRouter();
     const session = useSession();
-    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confPassword, setConfPassword] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [loading, setLoading] = useState(false);
-    const emailValidation = Yup.object({
-        email: Yup.string()
+    const passwordValidation = Yup.object({
+        password: Yup.string()
             .required(
-                "You'll need this when you log in and if you ever need to reset your password."
+                "Please enter a new password."
             )
-            .email("Enter a valid email address."),
+            .min(6, "Password must be atleast 6 characters.")
+            .max(36, "Password can't be more than 36 characters"),
+        confPassword: Yup.string()
+            .required("Confirm your password.")
+            .oneOf([Yup.ref("password")], "Passwords doesn't match."),
     });
-    const forgotHandler = async () => {
+    const resetHandler = async () => {
         try {
             setLoading(true);
-            const { data } = await axios.post('/api/auth/forgot', {
-                email
-            });
-            setSuccess(data.message);
+            const { data } = await axios.put("/api/auth/reset", {
+                id, password
+            })
+            let options = {
+                redirect: false,
+                email: data.email,
+                password: password
+            };
+
+            const msg = await signIn("credentials", options);
+
             setError("");
+            router.push("/");
             setLoading(false);
+
         } catch (error) {
             setLoading(false);
             setError(error.response.data.message);
@@ -49,10 +64,9 @@ const ForgotComponent = () => {
     if (session.data) {
         return <div onLoad={sessionRedirect()} className={styles.sessionExist}>
             <h1>You are already logged in.</h1>
-            <p>Sign out to reset the password!</p>
+            <p>Sign out to reset the password</p>
         </div>
     }
-
     return (
         <>
             {loading && <DotLoader loading={loading} />}
@@ -62,31 +76,38 @@ const ForgotComponent = () => {
                         <div className={styles.back__svg}>
                             <BiLeftArrowAlt />
                         </div>
-                        <span>Forgot your password ?{" "}
+                        <span>Reset your Password !{" "}
                             <Link href="/signin">Login instead</Link>
                         </span>
                     </div>
                     <Formik
                         enableReinitialize
                         initialValues={{
-                            email,
+                            password, confPassword
                         }}
-                        validationSchema={emailValidation}
+                        validationSchema={passwordValidation}
                         onSubmit={() => {
-                            forgotHandler();
+                            resetHandler();
                         }}
                     >
                         {(form) => (
                             <Form>
                                 <LoginInput
-                                    type="text"
-                                    name="email"
-                                    icon="email"
-                                    placeholder="Email Address"
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    type="password"
+                                    name="password"
+                                    icon="password"
+                                    placeholder="Password"
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                                <LoginInput
+                                    type="password"
+                                    name="conf_password"
+                                    icon="password"
+                                    placeholder="Re-type Password"
+                                    onChange={(e) => setConfPassword(e.target.value)}
                                 />
 
-                                <CircleIconBtn type="submit" text="Send link" />
+                                <CircleIconBtn type="submit" text="Reset" />
                                 <div style={{ marginTop: "10px" }}>
                                     {error && <span className={styles.error}>{error}</span>}
                                     {success && <span className={styles.success}>{success}</span>}
@@ -100,4 +121,4 @@ const ForgotComponent = () => {
     )
 }
 
-export default ForgotComponent;
+export default ResetComponent;
