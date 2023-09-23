@@ -185,7 +185,7 @@ const Login = ({ providers, callbackUrl, csrfToken }) => {
                                             login_error && <span className={styles.error}>{login_error}</span>
                                         }
                                         <div className={styles.forgot}>
-                                            <Link href="/forgot">Forgot Password ?</Link>
+                                            <Link href="/auth/forgot">Forgot Password ?</Link>
                                         </div>
                                     </Form>
                                 )
