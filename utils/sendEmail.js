@@ -1,6 +1,5 @@
 import nodemailer from "nodemailer"
 import { google } from "googleapis"
-import { activateEmail } from "@/emails/activateEmails"
 
 const { OAuth2 } = google.auth
 const OAUTH_PLAYGROUND = "https://developers.google.com/oauthplayground"
