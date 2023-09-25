@@ -1,12 +1,14 @@
 import axios from 'axios'
 import Footer from './components/footer'
 import Header from './components/header'
+import HomeComponent from './components/home/Home';
 
 export default async function Home() {
   const country = await fetchLocation();
   return (
     <div>
       <Header country={country} />
+      <HomeComponent />
       <Footer country={country} />
     </div>
   )
