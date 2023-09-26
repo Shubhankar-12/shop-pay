@@ -260,7 +260,10 @@ $cubic-bezier: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .flashDeals__swiper {
+
     .swiper-slide {
+        width: 265px !important;
+
         img {
             border-radius: 0 !important;
             height: 320px !important;
