@@ -34,8 +34,12 @@ const User = () => {
                                 alt="user image"
                             />
                             <div className={styles.user__infos_btns}>
-                                <button>Register</button>
-                                <button>Login</button>
+                                <Link href='/signin'>
+                                    <button>Register</button>
+                                </Link>
+                                <Link href='/signin'>
+                                    <button>Login</button>
+                                </Link>
                             </div>
                         </div>
                 }

@@ -25,10 +25,27 @@ const FlashDeals = () => {
             </div>
 
             <Swiper
-                slidesPerView={5}
-                spaceBetween={30}
+                slidesPerView={1}
+                spaceBetween={50}
                 pagination={{
                     clickable: true,
+                }}
+                breakpoints={{
+                    450: {
+                        slidesPerView: 2,
+                    },
+                    630: {
+                        slidesPerView: 3,
+                    },
+                    920: {
+                        slidesPerView: 4,
+                    },
+                    1232: {
+                        slidesPerView: 5,
+                    },
+                    1520: {
+                        slidesPerView: 6,
+                    },
                 }}
                 modules={[Pagination]}
                 className="flashDeals__swiper"

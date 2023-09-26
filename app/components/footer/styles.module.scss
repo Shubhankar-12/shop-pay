@@ -1,5 +1,6 @@
 .footer {
     background: #f8f8f8;
+    overflow-x: hidden;
 
     &__container {
         position: relative;
@@ -28,9 +29,9 @@
     }
 
     img {
-        object-fit: contain;
         width: 140px;
         height: 40px;
+        object-fit: contain;
     }
 
     h3 {
@@ -92,7 +93,6 @@
     &__flex {
         display: flex;
         margin-top: 10px;
-
     }
 
     &__newsletter {
@@ -154,7 +154,6 @@
             align-items: center;
             flex-wrap: wrap;
             column-gap: 2rem;
-
 
             li {
                 position: relative;
