@@ -14,6 +14,7 @@ const Main = () => {
                         <img src='../../../logo.png' />
                     </div>
                 </Link>
+
                 <div className={styles.search}>
                     <input type='text' placeholder='Search...' />
                     <div className={styles.search__icon}>
@@ -26,6 +27,7 @@ const Main = () => {
                         <span>{cart.length}</span>
                     </div>
                 </Link>
+
             </div>
         </div>
     )
