@@ -501,76 +501,76 @@ export const women_swiper = [
 
 export const gamingSwiper = [
     {
-        name: "",
+        name: "Joy-Con Controller",
         image: "https://ae01.alicdn.com/kf/H67f1ee99443a46d2a46b0ab346aae2b6Y.jpg",
-        price: "",
+        price: "473",
     },
     {
-        name: "",
+        name: "Samsung Curved monitor",
         image:
             "https://ae01.alicdn.com/kf/H46f7fcad7ab84793a0e69acfc856285d5/desktops-computer-quad-core-gaming-laptops-6GB-Grafiken-computer-desktop-computer-gamer-PC.jpg_Q90.jpg_.webp",
-        price: "",
+        price: "54999",
     },
     {
-        name: "",
+        name: "hyper beast controller",
         image: "https://ae01.alicdn.com/kf/H3658559222f34898b0d65c78c4eae42fh.jpg",
-        price: "",
+        price: "3599",
     },
     {
-        name: "",
+        name: "Gamesir VX2 keyboard",
         image: "https://ae01.alicdn.com/kf/H6e2ca40dfd9c4701b0005c9925a5008ff.jpg",
-        price: "",
+        price: "7599",
     },
     {
-        name: "",
+        name: "H300rgb Headset",
         image: "https://ae01.alicdn.com/kf/S510e42af09264c90bc9f4ea9ca535411u.jpg",
-        price: "",
+        price: "4998",
     },
     {
-        name: "",
+        name: "T13 rainbow keyboard",
         image: "https://ae01.alicdn.com/kf/S87eda4e95251435ca81023273f73d8dd1.jpg",
-        price: "",
+        price: "1959",
     },
     {
-        name: "",
+        name: "H300rgb Headset",
         image: "https://ae01.alicdn.com/kf/S510e42af09264c90bc9f4ea9ca535411u.jpg",
-        price: "",
+        price: "4998",
     },
     {
-        name: "",
+        name: "T13 rainbow keyboard",
         image: "https://ae01.alicdn.com/kf/S87eda4e95251435ca81023273f73d8dd1.jpg",
-        price: "",
+        price: "1959",
     },
 ];
 export const homeImprovSwiper = [
     {
-        name: "",
+        name: "King Bed",
         image: "https://ae01.alicdn.com/kf/H973c7fd8079f4820b28f7e5b8d7e4bb6s.jpg",
-        price: "",
+        price: "19999",
     },
     {
-        name: "",
+        name: "Work Desk",
         image: "https://ae01.alicdn.com/kf/S70e0b1be525948e3ae8ca0dbb5672c06Q.jpg",
-        price: "",
+        price: "8799",
     },
     {
-        name: "",
+        name: "Classy Dining Set",
         image: "https://ae03.alicdn.com/kf/S0e018b6c00ae409781e815c79d44b57bL.jpg",
-        price: "",
+        price: "79000",
     },
     {
-        name: "",
+        name: "Red Velvet Sofa",
         image: "https://ae03.alicdn.com/kf/H3c3a10b673554dc3a2957801aac40174z.jpg",
-        price: "",
+        price: "39576",
     },
     {
-        name: "",
+        name: "Dish Holder",
         image: "https://ae03.alicdn.com/kf/Se9ebef1491684e9bbde7f7f97e9fcf78k.jpg",
-        price: "",
+        price: "4555",
     },
     {
-        name: "",
+        name: "Dress Hanger Set",
         image: "https://ae03.alicdn.com/kf/S882fd95abb7b40ac860d4a9fab1df995Y.jpg",
-        price: "",
+        price: "2988",
     },
 ];
