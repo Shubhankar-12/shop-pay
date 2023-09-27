@@ -49,8 +49,6 @@ const FlashDeals = () => {
                 }}
                 modules={[Pagination]}
                 className="flashDeals__swiper"
-
-
             >
                 <div className={styles.flashDeals__list}>
                     {flashDealsArray.map((product, i) => (
