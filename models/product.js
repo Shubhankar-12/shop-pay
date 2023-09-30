@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 const { ObjectId } = mongoose.Schema;
+// review schema
 const reviewSchema = new mongoose.Schema({
     reviewBy: {
         type: ObjectId,
