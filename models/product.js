@@ -29,6 +29,7 @@ const reviewSchema = new mongoose.Schema({
     images: [],
     likes: [],
 });
+// product schema 
 const productSchema = new mongoose.Schema(
     {
         name: {
