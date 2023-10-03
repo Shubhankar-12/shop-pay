@@ -16,11 +16,17 @@
     .product {
         &__img {
             height: 350px;
+            overflow: hidden;
 
             img {
                 height: 100%;
                 width: 100%;
                 object-fit: cover;
+
+                &:hover {
+                    scale: 1.2;
+                    transition: all 3.5s linear;
+                }
             }
         }
 

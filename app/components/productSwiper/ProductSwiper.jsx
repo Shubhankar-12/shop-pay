@@ -8,7 +8,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 const ProductSwiper = ({ products, header, bg }) => {
-    console.log(products);
+
     return (
         <div className={styles.wrapper}>
             {header && (

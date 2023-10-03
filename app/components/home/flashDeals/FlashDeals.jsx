@@ -21,7 +21,7 @@ const FlashDeals = () => {
                     FLASH DEALS
                     <MdFlashOn />
                 </h1>
-                <CountDown date={new Date(2023, 9, 7)} />
+                <CountDown date={new Date(2023, 9, 17)} />
             </div>
 
             <Swiper
