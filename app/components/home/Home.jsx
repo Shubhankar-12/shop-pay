@@ -7,7 +7,8 @@ import Category from "./categories/Category"
 import FlashDeals from "./flashDeals/FlashDeals"
 import Main from "./main/Main"
 import ProductSwiper from "../productSwiper/ProductSwiper";
-const HomeComponent = () => {
+const HomeComponent = ({ products }) => {
+
     const isMedium = useMediaQuery({ query: "(max-width:850px)" });
     const isMobile = useMediaQuery({ query: "(max-width:550px)" });
     return (
