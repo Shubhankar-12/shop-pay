@@ -7,6 +7,7 @@ import Category from "./categories/Category"
 import FlashDeals from "./flashDeals/FlashDeals"
 import Main from "./main/Main"
 import ProductSwiper from "../productSwiper/ProductSwiper";
+import ProductCard from "../productCard/ProductCard";
 const HomeComponent = ({ products }) => {
 
     const isMedium = useMediaQuery({ query: "(max-width:850px)" });
@@ -45,6 +46,11 @@ const HomeComponent = ({ products }) => {
                 <ProductSwiper products={gamingSwiper} header="For Gamers" bg="#2f82ff" />
                 <ProductSwiper products={homeImprovSwiper} header="House Improvements" bg="#5a31f4" />
                 <ProductSwiper products={women_swiper} header="For Women" bg="#000" />
+                <div className={styles.products}>
+                    {products.map((product) => (
+                        <ProductCard product={product} key={product._id} />
+                    ))}
+                </div>
             </div>
         </div>
     )
