@@ -1,11 +1,11 @@
 import Header from "@/app/components/header"
 import Product from "@/models/product"
-import styles from "../../styles/product.module.scss"
 import db from "@/utils/db"
 import Footer from "@/app/components/footer"
 import Category from "@/models/Category"
 import SubCategory from "@/models/SubCategory"
 import User from "@/models/User"
+import ProductPageComp from "@/app/components/productPage"
 
 const productPage = async (context) => {
     const slug = context.params.slug[0]
@@ -19,17 +19,7 @@ const productPage = async (context) => {
     return (
         <div>
             <Header country={country} />
-            <div className={styles.product}>
-                <div className={styles.product__container}>
-                    <div className={styles.path}>
-                        Home / {productDetails.category.name}
-                        {productDetails.subCategories.map((sub, i) => (
-                            <span key={i}>/{sub.name}</span>
-                        ))}
-                    </div>
-                    <h1>{productDetails.name} </h1>
-                </div>
-            </div>
+            <ProductPageComp productDetails={productDetails} size={size} style={style} />
             <Footer country={country} />
         </div>
     )
