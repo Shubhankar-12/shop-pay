@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { TbPlus, TbMinus } from "react-icons/tb";
 import { BsHandbagFill, BsHeart } from 'react-icons/bs';
 import Share from './share/Share';
+import Accordian from '../accordian/Accordian';
+
 const ProductInfo = ({ product, setActiveImage, size, style }) => {
     const [sizee, setSizee] = useState(size);
     const [qty, setQty] = useState(1);
@@ -119,6 +121,9 @@ const ProductInfo = ({ product, setActiveImage, size, style }) => {
                         <b>Wishlist Product</b>
                     </button>
                 </div>
+
+                <Accordian details={[product.description, ...product.details]} />
+
                 <Share />
 
             </div>
