@@ -3,6 +3,8 @@ import styles from './styles.module.scss'
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { TbPlus, TbMinus } from "react-icons/tb";
+import { BsHandbagFill, BsHeart } from 'react-icons/bs';
+import Share from './share/Share';
 const ProductInfo = ({ product, setActiveImage, size, style }) => {
     const [sizee, setSizee] = useState(size);
     const [qty, setQty] = useState(1);
@@ -57,6 +59,7 @@ const ProductInfo = ({ product, setActiveImage, size, style }) => {
                         : product.sizes.reduce((start, next) => start + next.qty, 0)}{" "}
                     pieces available.
                 </span>
+
                 <div className={styles.infos__sizes}>
                     <h4>Select a Size : </h4>
                     <div className={styles.infos__sizes_wrap}>
@@ -73,6 +76,7 @@ const ProductInfo = ({ product, setActiveImage, size, style }) => {
                         ))}
                     </div>
                 </div>
+
                 <div className={styles.infos__colors}>
                     {product.colors &&
                         product.colors.map((color, i) => (
@@ -101,6 +105,21 @@ const ProductInfo = ({ product, setActiveImage, size, style }) => {
                         <TbPlus />
                     </button>
                 </div>
+
+                <div className={styles.infos__actions}>
+                    <button
+                        disabled={product.quantity < 1}
+                        style={{ cursor: `${product.quantity < 1 ? "not-allowed" : ""}` }}
+                    >
+                        <BsHandbagFill />
+                        <b>Add to Cart</b>
+                    </button>
+                    <button>
+                        <BsHeart />
+                        <b>Wishlist Product</b>
+                    </button>
+                </div>
+                <Share />
 
             </div>
         </div>
