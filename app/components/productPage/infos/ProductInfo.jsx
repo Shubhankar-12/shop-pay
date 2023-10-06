@@ -6,6 +6,7 @@ import { TbPlus, TbMinus } from "react-icons/tb";
 import { BsHandbagFill, BsHeart } from 'react-icons/bs';
 import Share from './share/Share';
 import Accordian from '../accordian/Accordian';
+import SimilarSwiper from './SimilarSwiper';
 
 const ProductInfo = ({ product, setActiveImage, size, style }) => {
     const [sizee, setSizee] = useState(size);
@@ -122,10 +123,15 @@ const ProductInfo = ({ product, setActiveImage, size, style }) => {
                     </button>
                 </div>
 
-                <Accordian details={[product.description, ...product.details]} />
-
                 <Share />
 
+                <Accordian details={[product.description, ...product.details]} />
+                <div>
+                    <h4>
+                        Similar Products
+                    </h4>
+                    <SimilarSwiper />
+                </div>
             </div>
         </div>
     )
