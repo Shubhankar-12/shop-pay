@@ -328,6 +328,16 @@ $cubic-bezier: cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 }
 
+.success {
+    padding: 30px 10px;
+    color: $success-color;
+}
+
+.error {
+    padding: 30px 10px;
+    color: $error-color;
+}
+
 .adminproduct__swiper {}
 
 //-------------Swipers------

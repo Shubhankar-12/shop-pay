@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Select from './Select'
 import styles from './styles.module.scss'
 import { Rating } from '@mui/material';
+import Images from './Images';
 
 let fits = ["Small", "True to size", "Large"];
 const AddReview = ({ product }) => {
@@ -10,6 +11,7 @@ const AddReview = ({ product }) => {
     const [fit, setFit] = useState("");
     const [review, setReview] = useState("");
     const [rating, setRating] = useState();
+    const [images, setImages] = useState([]);
 
     const handleSize = (size) => {
         setSize(size);
@@ -17,7 +19,7 @@ const AddReview = ({ product }) => {
     return (
         <div className={styles.reviews__add}>
             <div className={styles.reviews__add_wrap}>
-                <div className={styles.flex} style={{ gap: "10px" }}>
+                <div className={styles.flex} style={{ gap: "10px", flexWrap: 'wrap' }}>
 
                     <Select
                         property={size}
@@ -40,6 +42,7 @@ const AddReview = ({ product }) => {
                         handleChange={setFit}
                     />
                 </div>
+                <Images images={images} setImages={setImages} />
                 <textarea
                     name="review"
                     value={review}

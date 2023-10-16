@@ -51,6 +51,9 @@ const Review = ({ product }) => {
                     >Login to add review
                     </button>
                 }
+                <div className={styles.reviews__tab}>
+
+                </div>
             </div>
         </div>
     )
