@@ -11,7 +11,7 @@ const Review = ({ product }) => {
     return (
         <div className={styles.reviews}>
             <div className={styles.reviews__container}>
-                <h1>Customer Reviews ({product.reviews.length})+</h1>
+                <h1>Ratings </h1>
                 <div className={styles.reviews__stats}>
                     <div className={styles.reviews__stats_overview}>
                         <span>Average Rating</span>
@@ -45,13 +45,17 @@ const Review = ({ product }) => {
 
                 </div>
                 {session.data ?
-                    <AddReview product={product} /> :
+                    <>
+                        <h1>Add Review</h1>
+                        <AddReview product={product} />
+                    </> :
                     <button
                         className={styles.login_btn}
                         onClick={() => signIn()}
                     >Login to add review
                     </button>
                 }
+                <h1>Customer Reviews ({product.reviews.length})+</h1>
                 <Table reviews={product.reviews} allSizes={product.allSizes} colors={product.colors} />
             </div>
         </div>

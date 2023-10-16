@@ -329,6 +329,11 @@
             width: 25px;
             height: 25px;
             cursor: pointer;
+            transition: all 300ms linear;
+
+            &:hover {
+                fill: #2f82ff;
+            }
         }
 
         &_date {
