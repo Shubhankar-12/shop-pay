@@ -2,6 +2,7 @@ import { Rating } from '@mui/material'
 import styles from './styles.module.scss'
 import { signIn, useSession } from 'next-auth/react';
 import AddReview from './AddReview';
+import Table from './Table';
 
 
 const Review = ({ product }) => {
@@ -51,9 +52,7 @@ const Review = ({ product }) => {
                     >Login to add review
                     </button>
                 }
-                <div className={styles.reviews__tab}>
-
-                </div>
+                <Table reviews={product.reviews} />
             </div>
         </div>
     )
